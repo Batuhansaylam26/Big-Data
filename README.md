@@ -110,3 +110,5 @@ The generate command will take a few seconds to complete if you are using Maven 
     |
     ----pom.xml
  ```
+
+ To build your project, you can configure all project features, dependencies, repositories, plugins, etc. in a file called pom.xml (Project Object Model), which is defined by Maven.</p>
