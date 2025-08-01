@@ -1,3 +1,39 @@
+# Apache Maven
+
+Maven is a powerful build automation tool used primarily for Java projects, enabling the creation, management, and automation of your project.
+
+In short, Maven's core functions are as follows:
+
+## 1. Dependency Management
+
+This is Maven's most important feature. When developing a project, we need external libraries (for example: Spring Framework, Hibernate, JUnit). Maven allows you to write the names and versions of these libraries (artifacts) in your project's main configuration file, pom.xml.
+
+When you issue the command, Maven automatically downloads these libraries from a central repository (Maven Central), stores them in your local repository, and adds them to your project. This eliminates the hassle of manually downloading and adding libraries to your project.
+
+## 2. Project Structure and Standardization
+
+Maven defines a standard directory structure (folder layout) for projects. For example, source code is placed in the src/main/java folder, and test code in the src/test/java folder. This standardization allows developers working on different projects to easily understand the project's location and collaborate.
+
+## 3. Automated Build Process
+
+Maven automates the project's build process. It takes the project through a series of stages and defines a goal for each stage. These stages are:
+
+Compile: Converts Java code into .class files.
+
+Test: Runs tests on your project using tools like JUnit.
+
+Package: Combines the compiled code and resources to create a .jar or .war file.
+
+Install: Saves the built package to your local Maven repository for use by other projects.
+
+All of these processes can be run automatically with a single command (such as mvn install).
+
+## 4. Reporting and Documentation
+
+Maven can generate various reports and documentation about your project. It simplifies project management by automatically reporting information such as the project's dependency list, test results, and code quality analysis.
+
+In short, Maven simplifies the developer's work by consolidating a project's lifecycle (building, managing dependencies, compiling, testing, packaging, and deploying) under a single framework. This allows developers to focus directly on writing code rather than on the project's infrastructure.
+
 # Installing maven
 
 Firstly, we need to ensure **JAVA_HOME** enivronment variable exist. If it does not exist as environment variable set as permenantly as follows.  </p>
@@ -112,3 +148,5 @@ The generate command will take a few seconds to complete if you are using Maven 
  ```
 
  To build your project, you can configure all project features, dependencies, repositories, plugins, etc. in a file called pom.xml (Project Object Model), which is defined by Maven.</p>
+
+ Finally, by using Eclipse, the java project of this artifact is created and configurated as Maven project.
