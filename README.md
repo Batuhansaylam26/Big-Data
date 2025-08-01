@@ -21,7 +21,12 @@ After that check the environment variable.</p>
 echo $JAVA_HOME
 java -version
 ```
-
+Output: 
+```
+openjdk version "21.0.8" 2025-07-15
+OpenJDK Runtime Environment (build 21.0.8+9-Ubuntu-0ubuntu124.04.1)
+OpenJDK 64-Bit Server VM (build 21.0.8+9-Ubuntu-0ubuntu124.04.1, mixed mode, sharing)
+```
 Download Apache maven on the URL https://maven.apache.org/download.cgi </br>
 
 Unzip the package by using following commands. </br>
@@ -65,4 +70,12 @@ source ~/.bashrc
 Check the maven by the code:
 ```{bash}
 mvn -v
+```
+Output:
+```
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: /opt/apache-maven-3.9.11
+Java version: 21.0.8, vendor: Ubuntu, runtime: /usr/lib/jvm/java-21-openjdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.14.0-24-generic", arch: "amd64", family: "unix"
 ```
