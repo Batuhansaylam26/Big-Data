@@ -79,3 +79,34 @@ Java version: 21.0.8, vendor: Ubuntu, runtime: /usr/lib/jvm/java-21-openjdk-amd6
 Default locale: en_US, platform encoding: UTF-8
 OS name: "linux", version: "6.14.0-24-generic", arch: "amd64", family: "unix"
 ```
+
+# Create first project
+
+```{bash}
+mvn archetype:generate -DgroupId=com.first.example -DartifactId=jcg-example -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+By using the *mvn archetype:generate* command above, the first project has been initialized. </br>
+-  **-DgroupID** declares the group id of project.
+- **-DartifactId** declares the artifact id of project.
+- **-DarchetypeArtifactId=maven-archetype-quickstart** this archetype will create for us a basic java project with maven directories conventions that will be packaged as a jar file.
+- **-DinteractiveMode=false** This parameter prevents Maven from prompting the user for project details (Group ID, Artifact ID, etc.) and allows the user to use the values specified in the command directly. This allows the command to be run non-interactively.
+
+
+The generate command will take a few seconds to complete if you are using Maven for the first time since it needs to download all necessary plugins and artifacts before it can begin the generation operation.
+ As you can see, the chosen directory now has a new directory with the same name as the artifactId.  The updated directory structure is shown below.</br>
+
+ ```
+/jcg-example
+    |
+    ---- /src
+            |
+            ----/main/java/com/first/example
+                    |
+                    -----App.java
+            |
+            ----/test/java/com/first/example
+                    |
+                    -----AppTest.java
+    |
+    ----pom.xml
+ ```
