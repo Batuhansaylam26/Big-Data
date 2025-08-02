@@ -167,7 +167,7 @@ Firstly, we add the following block to pom.xml for hadoop dependency.
 </dependency>
 ```
 
-### [Mapper Code](Big-Data/jcg-example/src/main/java/com/first/example/MapClass.java)
+### [Mapper Code](/Big-Data/jcg-example/src/main/java/com/first/example/MapClass.java)
 
 *The MapClass.java* is added to **/jcg-example/src/main/java** folder.</br> 
 The mapper task is responsible for tokenizing the input text based on space and create a list of words, then traverse over all the
@@ -279,7 +279,7 @@ public class MapClass extends Mapper<LongWritable, Text, Text, IntWritable>{
 
 ```
 
-### [Reducer Code](Big-Data/jcg-example/src/main/java/com/first/example/ReduceClass.java)
+### [Reducer Code](/Big-Data/jcg-example/src/main/java/com/first/example/ReduceClass.java)
 ReduceClass extends the MapReduce Reducer class and overwrites the reduce()function. This function is called after the map method and receives keys which in this case are the word and also the corresponding
 values. Reduce method iterates over the values, adds them and reduces to a single value before finally writing the word and the
 number of occurrences of the word to the output file.[2]</p>
