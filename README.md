@@ -44,7 +44,7 @@ nano ~/.bashrc
 Then, add the following code block to *.bashrc* then exit and save the file.</p>
 
 ``` bash
-JAVA_HOME="lib/jvm/openjdk-21"
+JAVA_HOME="/usr/lib/jvm/openjdk-21"
 PATH= "$JAVA_HOME/bin:$PATH"
 export PATH
 ```
