@@ -206,7 +206,7 @@ This declares a class named as **MapClass**</br>
 private final static IntWritable one = new IntWritable(1);
 private Text word = new Text();
 ```
-The code block firstly makes a **IntWritable** object which represents **1** for each words and the object is shared by all words since **static** and created only ones since it is **final**. </p>
+The code block firstly makes a **IntWritable** object which represents **1** for each lines and the object is shared by all lines since **static** and created only ones since it is **final**. </p>
 
 Also, the **Text** object is created to store the each word.</br>
 
@@ -279,13 +279,110 @@ public class MapClass extends Mapper<LongWritable, Text, Text, IntWritable>{
 
 ```
 
+### Reducer Code 
+ReduceClass extends the MapReduce Reducer class and overwrites the reduce()function. This function is called after the map method and receives keys which in this case are the word and also the corresponding
+values. Reduce method iterates over the values, adds them and reduces to a single value before finally writing the word and the
+number of occurrences of the word to the output file.[2]</p>
 
+Firstly, the code block will be explained line by line.</br>
 
+```java
+package com.first.example;
 
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+```
 
+- **package com.first.example;**: This line specifies that the ReduceClass belongs to the com.first.example Java package. This helps organize classes within a project.</p>
 
+- **import ...**: These lines import necessary classes from the Java and Hadoop libraries. We need classes for handling input/output exceptions (IOException), Hadoop's custom data types (IntWritable, Text), and the core Reducer class itself.</p>
 
+```java
+public class ReduceClass extends Reducer<Text, IntWritable, Text, IntWritable> 
 
+private IntWritable result = new IntWritable();
+```
+
+- public class ReduceClass extends Reducer<...>: This line declares the ReduceClass and states that it inherits from the Hadoop Reducer class. The generic types define the input and output data formats:
+
+  - **<Text, IntWritable>**: The input key is a Text (the word), and the input values are IntWritable (the numbers, typically 1).
+
+  - **<Text, IntWritable>**: The output key will be a Text (the word), and the output value will be an IntWritable (the total count).
+
+- **private IntWritable result = new IntWritable();**: This line creates an instance of IntWritable. It's declared here as a class member for a performance optimization. By creating the object once, we avoid repeatedly creating new objects inside the reduce method, which is called many times.
+
+```java
+@Override
+protected void reduce(Text key, 
+                        Iterable<IntWritable> values, 
+                        Context context) 
+                        throws IOException, InterruptedException 
+```
+
+- **@Override**: This annotation indicates that this method is overriding a method from its superclass, Reducer.
+
+- **protected void reduce(...)**: This is the core method of the Reducer. Hadoop calls this method once for each unique key that comes from the Mapper phase.
+
+- **Text key**: This is the unique key (in this case, a word) that the Reducer is currently processing.
+
+- **Iterable<IntWritable> values**: This is a list of all the values (the 1s from the Mappers) that are associated with the current key.
+
+- **Context context**: This object is the bridge to the Hadoop framework. We use it to write the final output.
+
+```java
+int sum = 0;
+
+for (IntWritable value : values) {
+        sum += value.get();
+}
+
+result.set(sum);
+
+context.write(key, result);
+
+```
+- **int sum = 0;**: A local integer variable sum is initialized to 0. It will be used to accumulate the total count for the current word.
+
+- **for (IntWritable value : values) { ... }**: This for loop iterates through the list of IntWritable objects provided in the values parameter.
+
+- **sum += value.get();**: For each IntWritable object, the get() method is called to extract its integer value, which is then added to the sum variable.
+
+- **result.set(sum);**: After the loop finishes, sum holds the total count for the word. This line updates the result object with this total.
+
+- **context.write(key, result);**: This is the final step. It writes the result to the output. The key (the word) and the result (the total count) form a new key-value pair, which is then written to the output file in the Hadoop Distributed File System (HDFS).
+
+The full code block is below.
+```java
+package com.first.example;
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class ReduceClass extends Reducer<Text, IntWritable, Text, IntWritable> {
+
+    private IntWritable result = new IntWritable();
+
+    @Override
+    protected void reduce(Text key, 
+                          Iterable<IntWritable> values, 
+                          Context context) 
+                          throws IOException, InterruptedException {
+        int sum = 0;
+
+        for (IntWritable value : values) {
+            sum += value.get();
+        }
+
+        result.set(sum);
+
+        context.write(key, result);
+    }
+}
+
+```
 
 
 
@@ -304,3 +401,5 @@ public class MapClass extends Mapper<LongWritable, Text, Text, IntWritable>{
 # References
 
 [1] https://www.javacodegeeks.com/wp-content/uploads/2016/05/Apache-Hadoop-Cookbook.pdf
+
+[2] https://www.javacodegeeks.com/wp-content/uploads/2016/05/Apache-Hadoop-Cookbook.pdf
