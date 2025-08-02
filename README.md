@@ -38,22 +38,22 @@ In short, Maven simplifies the developer's work by consolidating a project's lif
 
 Firstly, we need to ensure **JAVA_HOME** enivronment variable exist. If it does not exist as environment variable set as permenantly as follows.  </p>
 
-```{bash}
+```bash
 nano ~/.bashrc
 ```
 Then, add the following code block to *.bashrc* then exit and save the file.</p>
 
-``` {bash}
+``` bash
 JAVA_HOME="lib/jvm/openjdk-21"
 PATH= "$JAVA_HOME/bin:$PATH"
 export PATH
 ```
 After that run the following on terminal.
-```{bash}
+```bash
 source ~/.bashrc
 ```
 After that check the environment variable.</p>
-```{bash}
+```bash
 echo $JAVA_HOME
 java -version
 ```
@@ -67,44 +67,44 @@ Download Apache maven on the URL https://maven.apache.org/download.cgi </br>
 
 Unzip the package by using following commands. </br>
 
-```{bash}
+```bash
 unzip apache-maven-3.9.11-bin.zip
 ```
 
 or
 
-```{bash}
+```bash
 tar xzvf apache-maven-3.9.11-bin.tar.gz
 ```
 
 Then copy or move the extracted folder to */opt/*
 
-```{bash}
+```bash
 sudo cp -rf  apache-maven-3.9.11 /opt/
 ```
 
 or 
 
-```{bash}
+```bash
 sudo mv -rf  apache-maven-3.9.11 /opt/
 ```
 Again open the .bashrc.
-```{bash}
+```bash
 nano ~/.bashrc
 ```
 add the following block to *.bashrc*.
-```{bash}
+```bash
 M2_HOME="/opt/apache-maven-3.9.11"
 PATH="$M2_HOME/bin:$PATH"
 export PATH
 ```
 The command source ~/.bashrc is used to apply the changes made in the ~/.bashrc file immediately to the current Bash session.
-```{bash}
+```bash
 source ~/.bashrc
 ```
 
 Check the maven by the code:
-```{bash}
+```bash
 mvn -v
 ```
 Output:
@@ -118,7 +118,7 @@ OS name: "linux", version: "6.14.0-24-generic", arch: "amd64", family: "unix"
 
 # Create first project
 
-```{bash}
+```bash
 mvn archetype:generate -DgroupId=com.first.example -DartifactId=jcg-example -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 ```
 By using the *mvn archetype:generate* command above, the first project has been initialized. </br>
@@ -150,3 +150,21 @@ The generate command will take a few seconds to complete if you are using Maven 
  To build your project, you can configure all project features, dependencies, repositories, plugins, etc. in a file called pom.xml (Project Object Model), which is defined by Maven.</p>
 
  Finally, by using Eclipse, the java project of this artifact is created and configurated as Maven project.
+
+ # Hadoop
+
+ ## The First "Hello-wrold"  Example
+
+The following dependency block can be added into pom.xml (Project Object Managment) to use Hadoop.</br>
+
+Firstly, we add the following block to pom.xml for hadoop dependency.
+
+```
+<dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-core</artifactId>
+        <version>1.2.1</version>
+</dependency>
+```
+
+### Mapper Code
