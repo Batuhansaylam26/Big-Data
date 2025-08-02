@@ -384,13 +384,166 @@ public class ReduceClass extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 ```
 
+### [Word Count Code](/jcg-example/src/main/java/com/first/example/WordCount.java)
 
 
+This code is the main class required to run a Hadoop MapReduce application. It combines the Mapper and Reducer classes to create a MapReduce job and run it on the Hadoop cluster.</p>
+
+You can find a step-by-step, line-by-line explanation of this code below.</br>
+
+```java
+package com.first.example;
+
+import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+```
+
+- **package com.first.example;**: This line specifies that the class is in the com.first.example package.
+
+- **import lines**: Imports all the Hadoop classes (e.g., Job, Configured, ToolRunner, etc.) and data types (Path, Text, IntWritable) required to configure and run the MapReduce job.
 
 
+```java
+public class WordCount extends Configured implements Tool{
+    public static void main(String[] args) throws Exception{
+        int exitCode = ToolRunner.run(new WordCount(), args);
+        System.exit(exitCode);
+    }
+```
+- **public class WordCount extends Configured implements Tool**: This defines the WordCount class.
+
+  - **extends Configured**: This specifies that this class can retrieve Hadoop configurations (settings).
+
+  - **implements Tool**: This specifies that it implements the Tool interface, which allows it to work with Hadoop's standard command-line interface.
+
+- **public static void main(String[] args)**: This is the program's entry point.
+
+- **ToolRunner.run(new WordCount(), args);**: This runs the WordCount class with the Hadoop ToolRunner tool. This allows Hadoop to automatically process command-line arguments.
 
 
+```java
+public int run(String[] args) throws Exception {
+```
+- **public int run(String[] args)**: This method comes from the Tool interface and contains all the logic of the MapReduce job. Command-line arguments (input and output paths) are processed here.
 
+```java
+if (args.length != 2) {
+        System.err.printf("Usage: %s needs two arguments, input and output files\n", getClass().getSimpleName());
+        return -1;
+}
+```
+This section checks the number of arguments received from the command line. The program expects exactly two arguments (paths to the input and output files) to run. If the number is different, it prints an error message and terminates the program with error code -1. </p>
+
+```java
+Job job = new Job();
+job.setJarByClass(WordCount.class);
+job.setJobName("WordCounter");
+```
+- **Job job = new Job();**: A MapReduce job (Job) object is created.
+
+- **job.setJarByClass(WordCount.class);**: Tells Hadoop that the JAR file in which the job will be run is the file containing the WordCount class.
+
+- **job.setJobName("WordCounter");**: Sets a name for the job. This name makes it easier to track the job.
+
+```java
+FileInputFormat.addInputPath(job, new Path(args[0]));
+FileOutputFormat.setOutputPath(job, new Path(args[1]));
+```
+- **FileInputFormat.addInputPath(...)**: Specifies where the job's input data is located. args[0] is the first argument from the command line and contains the path to the input file.
+
+- **FileOutputFormat.setOutputPath(...)**: Specifies where the job's output data will be written. args[1] is the second argument and contains the path to the output directory.
+
+```java
+job.setOutputKeyClass(Text.class);
+job.setOutputValueClass(IntWritable.class);
+job.setOutputFormatClass(TextOutputFormat.class);
+```
+- **job.setOutputKeyClass(...)**: Sets the data type of the key to be used in the Reducer's output to Text.
+
+- **job.setOutputValueClass(...)**: Sets the data type of the value to be used in the Reducer's output to IntWritable.
+
+- **job.setOutputFormatClass(...)**: Specifies how the output will be formatted. TextOutputFormat generates standard text output.
+
+```java
+job.setMapperClass(MapClass.class);
+job.setReducerClass(ReduceClass.class);
+```
+- **job.setMapperClass(...)**: Specifies which Mapper class to use for this job. Displays the MapClass class you previously examined.
+
+- **job.setReducerClass(...)**: Specifies which Reducer class to use for this job. Displays the ReduceClass class you previously examined.
+
+```java
+int returnValue = job.waitForCompletion(true) ? 0:1;
+if(job.isSuccessful()) {
+        System.out.println("Job was successful");
+} else if(!job.isSuccessful()) {
+        System.out.println("Job was not successful");
+}
+return returnValue;
+}
+}
+```
+- **job.waitForCompletion(true)**: This method waits for the job to complete. It returns true if the job is successful and false if it is unsuccessful. The true parameter allows the job's progress to be printed to the console.
+
+- **int returnValue = ...**: Sets the returnValue variable to 0 (successful) or 1 (failed), depending on the job's success.
+
+- **if(job.isSuccessful()) { ... }**: Checks whether the job was successful and prints a message to the console accordingly.
+
+- **return returnValue;**: Returns the exit code from the run method to return to the main method.
+
+The full code block is below.</br>
+
+```java
+package com.first.example;
+
+import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+public class WordCount extends Configured implements Tool{
+	public static void main(String[] args) throws Exception{
+			int exitCode = ToolRunner.run(new WordCount(), args);
+			System.exit(exitCode);
+	}
+	public int run(String[] args) throws Exception {
+			if (args.length != 2) {
+					System.err.printf("Usage: %s needs two arguments, input and output files\n", getClass().getSimpleName());
+					return -1;
+		}
+		Job job = new Job();
+		job.setJarByClass(WordCount.class);
+		job.setJobName("WordCounter");
+		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(IntWritable.class);
+		job.setOutputFormatClass(TextOutputFormat.class);
+		job.setMapperClass(MapClass.class);
+		job.setReducerClass(ReduceClass.class);
+		int returnValue = job.waitForCompletion(true) ? 0:1;
+		if(job.isSuccessful()) {
+				System.out.println("Job was successful");
+		} else if(!job.isSuccessful()) {
+				System.out.println("Job was not successful");
+		}
+		return returnValue;
+	}
+}
+```
 
 
 
